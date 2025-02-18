@@ -1,25 +1,23 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+const PUBLIC_PATHS = ['/login', '/_next', '/api/auth', '/favicon.ico'] as const
+
+type PublicPath = (typeof PUBLIC_PATHS)[number]
+
 export function middleware(request: NextRequest) {
-	// Add debug logging
-	console.log('Middleware path:', request.nextUrl.pathname)
-	console.log('Auth cookie:', request.cookies.get('auth_token')?.value)
-
+	const { pathname } = request.nextUrl
 	const isAuthenticated = request.cookies.has('auth_token')
-	const isLoginPage = request.nextUrl.pathname === '/login'
 
-	// Public paths that don't require auth
-	const publicPaths = ['/login', '/_next', '/api/auth', '/favicon.ico']
-
-	const isPublicPath = publicPaths.some(path => request.nextUrl.pathname.startsWith(path))
-
-	if (!isAuthenticated && !isPublicPath) {
-		return NextResponse.redirect(new URL('/login', request.url))
+	if (PUBLIC_PATHS.some(path => pathname.startsWith(path))) {
+		if (isAuthenticated && pathname === '/login') {
+			return NextResponse.redirect(new URL('/', request.url))
+		}
+		return NextResponse.next()
 	}
 
-	if (isAuthenticated && isLoginPage && request.nextUrl.pathname === '/') {
-		return NextResponse.redirect(new URL('/dashboard', request.url))
+	if (!isAuthenticated) {
+		return NextResponse.redirect(new URL('/login', request.url))
 	}
 
 	return NextResponse.next()
@@ -27,12 +25,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		/*
-		 * Match all request paths except for the ones starting with:
-		 * - _next/static (static files)
-		 * - _next/image (image optimization files)
-		 * - favicon.ico (favicon file)
-		 */
-		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+		// Защищаем все пути кроме статических ресурсов
+		'/((?!_next/static|_next/image|favicon.ico).*)',
+		// Явно указываем API роуты которые нужно защищать
+		'/api/:path*',
 	],
 }

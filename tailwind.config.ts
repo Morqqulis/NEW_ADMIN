@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss'
 import animate from 'tailwindcss-animate'
+
 export default {
-    darkMode: ['class'],
+    darkMode: 'class',
     content: [
 		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,6 +10,13 @@ export default {
 	],
 	theme: {
     	extend: {
+        container: {
+          // center: true,
+          padding: '2rem',
+          screens: {
+            '2xl': { max: '3840px' },
+          },
+        },
     		animation: {
     			shimmer: 'shimmer 2s linear infinite',
     			'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',

@@ -8,64 +8,60 @@ import Link from 'next/link'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 export default function Header() {
-  const router = useRouter()
+	const router = useRouter()
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST'
-      })
+	const handleLogout = async () => {
+		try {
+			const response = await fetch('/api/auth/logout', {
+				method: 'POST',
+			})
 
-      if (response.ok) {
-        router.push('/login')
-      }
-    } catch (error) {
-      console.error('Logout failed:', error)
-    }
-  }
+			if (response.ok) {
+				router.push('/login')
+			}
+		} catch (error) {
+			console.error('Logout failed:', error)
+		}
+	}
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <div className="mr-4 flex">
-          <Link className="mr-6 flex items-center space-x-2" href="/">
-          </Link>
-        </div>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-          </div>
-          <Menu as="div" className="relative">
-            <Menu.Button as={ShimmerButton} variant="outline" size="sm" className="gap-2">
-              <UserCircleIcon className="h-5 w-5" />
-              <span>Profile</span>
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-card py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      onClick={handleLogout}
-                      className={`${
-                        active ? 'bg-secondary' : ''
-                      } block w-full px-4 py-2 text-left text-sm text-foreground`}
-                    >
-                      Sign out
-                    </button>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </div>
-      </div>
-    </header>
-  )
-} 
+	return (
+		<header className='top-0 z-50 sticky bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/40 w-full'>
+			<div className='flex items-center h-14 container'>
+				<div className='flex mr-4'>
+					<Link className='flex items-center space-x-2 mr-6' href='/'></Link>
+				</div>
+				<div className='flex flex-1 justify-between md:justify-end items-center space-x-2'>
+					<div className='flex-1 md:flex-none w-full md:w-auto'></div>
+					<Menu as='div' className='relative'>
+						<Menu.Button as={ShimmerButton} variant='outline' size='sm' className='gap-2'>
+							<UserCircleIcon className='w-5 h-5' />
+							<span>Profile</span>
+						</Menu.Button>
+						<Transition
+							as={Fragment}
+							enter='transition ease-out duration-100'
+							enterFrom='transform opacity-0 scale-95'
+							enterTo='transform opacity-100 scale-100'
+							leave='transition ease-in duration-75'
+							leaveFrom='transform opacity-100 scale-100'
+							leaveTo='transform opacity-0 scale-95'>
+							<Menu.Items className='right-0 absolute bg-card ring-opacity-5 shadow-lg mt-2 py-1 rounded-md focus:outline-none ring-1 ring-black w-48 origin-top-right'>
+								<Menu.Item>
+									{({ active }) => (
+										<button
+											onClick={handleLogout}
+											className={`${
+												active ? 'bg-secondary' : ''
+											} block w-full px-4 py-2 text-left text-sm text-foreground`}>
+											Sign out
+										</button>
+									)}
+								</Menu.Item>
+							</Menu.Items>
+						</Transition>
+					</Menu>
+				</div>
+			</div>
+		</header>
+	)
+}

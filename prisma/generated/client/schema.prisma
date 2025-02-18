@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated/client"
+  binaryTargets = ["native", "darwin", "darwin-arm64"]
+  engineType    = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  email               String
+  company             String
+  website             String?
+  logo                String?
+  stationIds          Int[]
+  status              String
+  apiKey              String?   @unique
+  apiKeyLastGenerated DateTime?
+  stations            Station[] @relation("ClientToStation")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  name      String
+  code      String    @unique
+  country   String
+  city      String
+  timezone  String
+  stations  Station[] @relation("LocationToStation")
+  createdAt DateTime  @default(now())
+}
+
+model Station {
+  id             Int      @id @default(autoincrement())
+  name           String
+  locationId     Int
+  location       Location @relation("LocationToStation", fields: [locationId], references: [id])
+  website        String?
+  status         String   @default("active")
+  omniplayerUrl  String?
+  clientId       Int
+  client         Client   @relation("ClientToStation", fields: [clientId], references: [id])
+  clientSecret   String
+  username       String
+  password       String
+  systemPrompt   String?
+  hourlyPrompt0  String?
+  hourlyPrompt10 String?
+  hourlyPrompt20 String?
+  hourlyPrompt30 String?
+  hourlyPrompt40 String?
+  hourlyPrompt50 String?
+  hourlyPrompt55 String?
+  newsPrompt     String?
+  weatherPrompt  String?
+  trafficPrompt  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Voice {
+  id        Int      @id @default(autoincrement())
+  name      String
+  voiceId   String
+  gender    String
+  language  String
+  accent    String?
+  age       Int?
+  category  String
+  country   String
+  status    String
+  createdAt DateTime @default(now())
+}

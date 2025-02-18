@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
 	// Add debug logging
 	console.log('Middleware path:', request.nextUrl.pathname)
-	console.log('Auth cookie:', request.cookies.get('auth')?.value)
+	console.log('Auth cookie:', request.cookies.get('auth_token')?.value)
 
 	const isAuthenticated = request.cookies.has('auth_token')
 	const isLoginPage = request.nextUrl.pathname === '/login'

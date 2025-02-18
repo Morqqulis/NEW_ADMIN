@@ -151,24 +151,24 @@ export default function FormatCustomizerPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Format Customizer</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="font-bold text-foreground text-2xl">Format Customizer</h1>
+          <p className="mt-2 text-muted-foreground">
             Customize your station's format by adjusting the demographic target and style parameters
           </p>
         </div>
       </div>
 
       {/* Station Selector */}
-      <div className="card p-6">
-        <h2 className="text-lg font-semibold mb-4">Select Station</h2>
-        <div className="flex gap-4 items-center">
+      <div className="p-6 card">
+        <h2 className="mb-4 font-semibold text-lg">Select Station</h2>
+        <div className="flex items-center gap-4">
           <select
             value={selectedStation?.id || ''}
             onChange={(e) => {
               const station = stations.find(s => s.id === parseInt(e.target.value))
               setSelectedStation(station || null)
             }}
-            className="bg-background text-foreground border border-input rounded-md px-3 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-primary"
+            className="bg-background px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary w-full max-w-md text-foreground"
           >
             <option value="">Select a station...</option>
             {stations.map((station) => (
@@ -181,32 +181,32 @@ export default function FormatCustomizerPage() {
       </div>
 
       {selectedStation ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="gap-6 grid grid-cols-1 lg:grid-cols-2">
           {/* Left Column */}
           <div className="space-y-6">
-            <div className="card p-6">
-              <h2 className="text-lg font-semibold mb-4">Demographic Targeting</h2>
+            <div className="p-6 card">
+              <h2 className="mb-4 font-semibold text-lg">Demographic Targeting</h2>
               <FormatSpiderChart
                 data={formatData.demographic}
                 onChange={(demographic) => setFormatData(prev => ({ ...prev, demographic }))}
               />
             </div>
-            <div className="card p-6">
-              <h2 className="text-lg font-semibold mb-4">Format Preview</h2>
-              <FormatPreview data={formatData} />
+            <div className="p-6 card">
+              <h2 className="mb-4 font-semibold text-lg">Format Preview</h2>
+              <FormatPreview formatData={formatData} />
             </div>
           </div>
 
           {/* Right Column */}
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold mb-4">Style Parameters</h2>
+          <div className="p-6 card">
+            <h2 className="mb-4 font-semibold text-lg">Style Parameters</h2>
             <FormatSliders
               values={formatData.sliders}
               onChange={(sliders) => setFormatData(prev => ({ ...prev, sliders }))}
             />
 
-            <div className="card p-6">
-              <h2 className="text-lg font-semibold mb-4">News Balance</h2>
+            <div className="p-6 card">
+              <h2 className="mb-4 font-semibold text-lg">News Balance</h2>
               <NewsBalanceControls
                 values={formatData.newsBalance.values}
                 duration={formatData.newsBalance.duration}
@@ -217,7 +217,7 @@ export default function FormatCustomizerPage() {
               />
             </div>
 
-            <div className="flex gap-4 justify-end mt-6 pt-6 border-t border-gray-700">
+            <div className="flex justify-end gap-4 mt-6 pt-6 border-gray-700 border-t">
               <ShimmerButton
                 onClick={handleGeneratePrompts}
                 disabled={isGenerating}
@@ -231,7 +231,7 @@ export default function FormatCustomizerPage() {
           </div>
         </div>
       ) : (
-        <div className="card p-6 text-center text-muted-foreground">
+        <div className="p-6 text-muted-foreground text-center card">
           Please select a station to customize its format
         </div>
       )}

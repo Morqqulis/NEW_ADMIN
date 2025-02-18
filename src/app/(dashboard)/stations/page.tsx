@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Station, Location, Client } from '@/lib/types'
-import { Button } from "@/components/ui"
-import { PlusIcon } from "@heroicons/react/24/outline"
-import Modal from '@/components/ui/Modal'
 import StationForm from '@/components/forms/StationForm'
-import LoadingWrapper from '@/components/ui/LoadingWrapper'
+import { Button } from "@/components/ui"
+import Modal from '@/components/ui/Modal'
+import { Client, Location, Station } from '@/lib/types'
+import { PlusIcon } from "@heroicons/react/24/outline"
+import { useEffect, useState } from 'react'
 
 export default function StationsPage() {
   const [stations, setStations] = useState<Station[]>([])
@@ -45,7 +44,8 @@ export default function StationsPage() {
         console.log('Fetched stations:', stationData)
         setStations(stationData)
       } catch (error) {
-        console.error('Error fetching data:', error, 'Stack:', error.stack)
+        console.error('Error fetching data:', error, 
+          'Stack:', error instanceof Error ? error.stack : 'No stack trace')
         setError('Failed to load data')
       } finally {
         setLoading(false)
@@ -98,7 +98,7 @@ export default function StationsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex justify-center items-center h-64">
         <div className="text-gray-500">Loading stations...</div>
       </div>
     )
@@ -106,7 +106,7 @@ export default function StationsPage() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex justify-center items-center h-64">
         <div className="text-red-500">{error}</div>
       </div>
     )
@@ -114,32 +114,32 @@ export default function StationsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">Radio Stations</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="font-semibold text-foreground text-2xl">Radio Stations</h1>
         <Button 
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-red-700 hover:bg-red-800 text-white rounded-full"
+          className="bg-red-700 hover:bg-red-800 rounded-full text-white"
         >
-          <PlusIcon className="mr-2 h-4 w-4" />
+          <PlusIcon className="mr-2 w-4 h-4" />
           Add Station
         </Button>
       </div>
 
       {stations.length === 0 ? (
-        <div className="rounded-lg border border-gray-700 bg-[#282828] p-6 text-center text-gray-400">
+        <div className="bg-[#282828] p-6 border border-gray-700 rounded-lg text-gray-400 text-center">
           No stations found. Add your first station to get started.
         </div>
       ) : (
-        <div className="rounded-lg border border-gray-700 bg-[#282828] overflow-hidden">
+        <div className="bg-[#282828] border border-gray-700 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead className="bg-[#1a1a1a]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Station ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Website</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Station ID</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Location</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Website</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 font-medium text-gray-400 text-xs text-left uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-700">
@@ -150,10 +150,10 @@ export default function StationsPage() {
                     key={station.id}
                     className="hover:bg-[#1a1a1a] transition-colors duration-200"
                   >
-                    <td className="px-6 py-4 text-sm text-gray-200">{station.name}</td>
-                    <td className="px-6 py-4 text-sm text-gray-200">{station.stationId}</td>
-                    <td className="px-6 py-4 text-sm text-gray-200">{location?.city}, {location?.country}</td>
-                    <td className="px-6 py-4 text-sm text-gray-200">{station.website}</td>
+                    <td className="px-6 py-4 text-gray-200 text-sm">{station.name}</td>
+                    <td className="px-6 py-4 text-gray-200 text-sm">{station.stationId}</td>
+                    <td className="px-6 py-4 text-gray-200 text-sm">{location?.city}, {location?.country}</td>
+                    <td className="px-6 py-4 text-gray-200 text-sm">{station.website}</td>
                     <td className="px-6 py-4 text-sm">
                       <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
                         station.status === 'active' 

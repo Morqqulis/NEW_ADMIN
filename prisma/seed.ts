@@ -72,6 +72,7 @@ async function main() {
 		await prisma.station.create({
 			data: {
 				name: 'Radio Demo',
+				stationId: 'DEMO1',
 				locationId: amsterdam.id,
 				website: 'https://radiodemo.com',
 				status: 'active',

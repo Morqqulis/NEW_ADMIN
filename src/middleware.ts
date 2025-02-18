@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
 	// Add debug logging
@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
 		return NextResponse.redirect(new URL('/login', request.url))
 	}
 
-	if (isAuthenticated && isLoginPage) {
+	if (isAuthenticated && isLoginPage && request.nextUrl.pathname === '/') {
 		return NextResponse.redirect(new URL('/dashboard', request.url))
 	}
 

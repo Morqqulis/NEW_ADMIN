@@ -10,16 +10,9 @@ export function middleware(request: NextRequest) {
 	const isLoginPage = request.nextUrl.pathname === '/login'
 
 	// Public paths that don't require auth
-	const publicPaths = [
-		'/login',
-		'/_next',
-		'/api/auth',
-		'/favicon.ico',
-	]
+	const publicPaths = ['/login', '/_next', '/api/auth', '/favicon.ico']
 
-	const isPublicPath = publicPaths.some(path => 
-		request.nextUrl.pathname.startsWith(path)
-	)
+	const isPublicPath = publicPaths.some(path => request.nextUrl.pathname.startsWith(path))
 
 	if (!isAuthenticated && !isPublicPath) {
 		return NextResponse.redirect(new URL('/login', request.url))

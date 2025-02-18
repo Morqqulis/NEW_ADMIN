@@ -1,9 +1,9 @@
+import prisma from '@/lib/prisma'
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
 
 export async function GET() {
 	try {
-		const clients = await db.client.findMany({
+		const clients = await prisma.client.findMany({
 			orderBy: {
 				name: 'asc',
 			},
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 	try {
 		const data = await request.json()
 
-		const client = await db.client.create({
+		const client = await prisma.client.create({
 			data: {
 				name: data.name,
 				email: data.email,

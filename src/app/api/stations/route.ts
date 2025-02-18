@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import prisma from '@/lib/prisma'
 
 export async function GET() {
 	try {
-		const stations = await db.station.findMany({
+		const stations = await prisma.station.findMany({
 			include: {
 				location: true,
 				client: true,
@@ -22,7 +22,7 @@ export async function PUT(request: Request) {
 		const data = await request.json()
 		const { id, ...updateData } = data
 
-		const updatedStation = await db.station.update({
+		const updatedStation = await prisma.station.update({
 			where: { id: Number(id) },
 			data: updateData,
 			include: {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 	try {
 		const data = await request.json()
 
-		const newStation = await db.station.create({
+		const newStation = await prisma.station.create({
 			data,
 			include: {
 				location: true,

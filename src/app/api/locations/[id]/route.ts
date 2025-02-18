@@ -1,64 +1,42 @@
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/config';
-import { locations } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server'
+import prisma from '@/lib/prisma'
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const data = await request.json();
-    const id = parseInt(params.id);
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+	try {
+		const data = await request.json()
+		const id = parseInt(params.id)
 
-    const updatedLocation = await db
-      .update(locations)
-      .set(data)
-      .where(eq(locations.id, id))
-      .returning();
+		const updatedLocation = await prisma.location.update({
+			where: { id },
+			data,
+		})
 
-    if (!updatedLocation.length) {
-      return NextResponse.json(
-        { error: 'Location not found' },
-        { status: 404 }
-      );
-    }
+		if (!updatedLocation) {
+			return NextResponse.json({ error: 'Location not found' }, { status: 404 })
+		}
 
-    return NextResponse.json(updatedLocation[0]);
-  } catch (error) {
-    console.error('Error updating location:', error);
-    return NextResponse.json(
-      { error: 'Failed to update location' },
-      { status: 500 }
-    );
-  }
+		return NextResponse.json(updatedLocation)
+	} catch (error) {
+		console.error('Error updating location:', error)
+		return NextResponse.json({ error: 'Failed to update location' }, { status: 500 })
+	}
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const id = parseInt(params.id);
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+	try {
+		const id = parseInt(params.id)
 
-    const deletedLocation = await db
-      .delete(locations)
-      .where(eq(locations.id, id))
-      .returning();
+		const deletedLocation = await prisma.location.delete({
+			where: { id },
+		})
 
-    if (!deletedLocation.length) {
-      return NextResponse.json(
-        { error: 'Location not found' },
-        { status: 404 }
-      );
-    }
+		if (!deletedLocation) {
+			return NextResponse.json({ error: 'Location not found' }, { status: 404 })
+		}
 
-    return NextResponse.json(deletedLocation[0]);
-  } catch (error) {
-    console.error('Error deleting location:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete location' },
-      { status: 500 }
-    );
-  }
-} 
+		return NextResponse.json(deletedLocation)
+	} catch (error) {
+		console.error('Error deleting location:', error)
+		return NextResponse.json({ error: 'Failed to delete location' }, { status: 500 })
+	}
+}

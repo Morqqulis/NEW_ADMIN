@@ -3,6 +3,7 @@
 
 generator client {
   provider      = "prisma-client-js"
+  output        = "./generated/client"
   binaryTargets = ["native", "darwin", "darwin-arm64"]
   engineType    = "binary"
 }
@@ -13,19 +14,19 @@ datasource db {
 }
 
 model Client {
-  id         Int       @id @default(autoincrement())
-  name       String
-  email      String
-  company    String
-  website    String?
-  logo       String?
-  stationIds Int[]
-  status     String
-  apiKey     String?   @unique
+  id                  Int       @id @default(autoincrement())
+  name                String
+  email               String
+  company             String
+  website             String?
+  logo                String?
+  stationIds          Int[]
+  status              String
+  apiKey              String?   @unique
   apiKeyLastGenerated DateTime?
-  stations   Station[] @relation("ClientToStation")
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  stations            Station[] @relation("ClientToStation")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 
 model Location {
@@ -40,19 +41,19 @@ model Location {
 }
 
 model Station {
-  id            Int      @id @default(autoincrement())
-  name          String
-  locationId    Int
-  location      Location @relation("LocationToStation", fields: [locationId], references: [id])
-  website       String?
-  status        String   @default("active")
-  omniplayerUrl String?
-  clientId      Int
-  client        Client   @relation("ClientToStation", fields: [clientId], references: [id])
-  clientSecret  String
-  username      String
-  password      String
-  systemPrompt  String?
+  id             Int      @id @default(autoincrement())
+  name           String
+  locationId     Int
+  location       Location @relation("LocationToStation", fields: [locationId], references: [id])
+  website        String?
+  status         String   @default("active")
+  omniplayerUrl  String?
+  clientId       Int
+  client         Client   @relation("ClientToStation", fields: [clientId], references: [id])
+  clientSecret   String
+  username       String
+  password       String
+  systemPrompt   String?
   hourlyPrompt0  String?
   hourlyPrompt10 String?
   hourlyPrompt20 String?
@@ -60,11 +61,11 @@ model Station {
   hourlyPrompt40 String?
   hourlyPrompt50 String?
   hourlyPrompt55 String?
-  newsPrompt    String?
-  weatherPrompt String?
-  trafficPrompt String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  newsPrompt     String?
+  weatherPrompt  String?
+  trafficPrompt  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Voice {

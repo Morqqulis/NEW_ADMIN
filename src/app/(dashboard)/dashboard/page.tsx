@@ -3,7 +3,7 @@
 import { mockClients, mockStations, mockVoices } from '@/lib/mockData'
 import { ChartBarIcon, MicrophoneIcon, RadioIcon, SignalIcon, UsersIcon } from '@heroicons/react/24/outline'
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { TimeDisplay } from './TimeDisplay'
+import { TimeDisplay } from '../../../components/ui/TimeDisplay'
 
 const COLORS = ['#dc2626', '#059669', '#2563eb', '#d97706'] // red, emerald, blue, amber
 
@@ -62,30 +62,30 @@ export default function DashboardPage() {
 
 			{/* Stats Cards */}
 
-			<div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+			<div className='gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
 				{stats.map(stat => (
 					<div key={stat.name} className='stats-card'>
 						<dt>
 							<div className={`absolute rounded-xl p-3 ${stat.color}`}>
-								<stat.icon className='h-6 w-6 text-white' />
+								<stat.icon className='w-6 h-6 text-white' />
 							</div>
-							<p className='ml-16 text-sm font-medium text-muted-foreground truncate'>{stat.name}</p>
+							<p className='ml-16 font-medium text-muted-foreground text-sm truncate'>{stat.name}</p>
 						</dt>
-						<dd className='ml-16 flex items-baseline'>
-							<p className='text-2xl font-semibold text-foreground'>{stat.value}</p>
-							<p className='ml-2 text-sm text-muted-foreground'>of {stat.total}</p>
+						<dd className='flex items-baseline ml-16'>
+							<p className='font-semibold text-foreground text-2xl'>{stat.value}</p>
+							<p className='ml-2 text-muted-foreground text-sm'>of {stat.total}</p>
 						</dd>
 					</div>
 				))}
 			</div>
 
 			{/* Charts */}
-			<div className='grid grid-cols-1 gap-5 lg:grid-cols-2'>
+			<div className='gap-5 grid grid-cols-1 lg:grid-cols-2'>
 				{/* Broadcasts Chart */}
 				<div className='stats-card'>
-					<div className='flex items-center justify-between mb-4'>
-						<h2 className='text-lg font-medium text-foreground'>Weekly Broadcasts</h2>
-						<SignalIcon className='h-5 w-5 text-muted-foreground' />
+					<div className='flex justify-between items-center mb-4'>
+						<h2 className='font-medium text-foreground text-lg'>Weekly Broadcasts</h2>
+						<SignalIcon className='w-5 h-5 text-muted-foreground' />
 					</div>
 					<div className='h-80'>
 						<ResponsiveContainer width='100%' height='100%'>
@@ -108,9 +108,9 @@ export default function DashboardPage() {
 
 				{/* Voice Usage Chart */}
 				<div className='stats-card'>
-					<div className='flex items-center justify-between mb-4'>
-						<h2 className='text-lg font-medium text-foreground'>Voice Usage by Type</h2>
-						<ChartBarIcon className='h-5 w-5 text-muted-foreground' />
+					<div className='flex justify-between items-center mb-4'>
+						<h2 className='font-medium text-foreground text-lg'>Voice Usage by Type</h2>
+						<ChartBarIcon className='w-5 h-5 text-muted-foreground' />
 					</div>
 					<div className='h-80'>
 						<ResponsiveContainer width='100%' height='100%'>
@@ -133,10 +133,10 @@ export default function DashboardPage() {
 							{mockVoiceUsage.map((entry, index) => (
 								<div key={entry.name} className='flex items-center'>
 									<div
-										className='w-3 h-3 rounded-full mr-2'
+										className='mr-2 rounded-full w-3 h-3'
 										style={{ backgroundColor: COLORS[index % COLORS.length] }}
 									/>
-									<span className='text-sm text-muted-foreground'>{entry.name}</span>
+									<span className='text-muted-foreground text-sm'>{entry.name}</span>
 								</div>
 							))}
 						</div>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
 
 			{/* Recent Activity */}
 			<div className='stats-card'>
-				<h2 className='text-lg font-medium text-foreground mb-4'>Recent Activity</h2>
+				<h2 className='mb-4 font-medium text-foreground text-lg'>Recent Activity</h2>
 				<div className='flow-root'>
 					<ul className='-mb-8'>
 						{[
@@ -158,24 +158,24 @@ export default function DashboardPage() {
 								<div className='relative pb-8'>
 									{activityIdx !== 2 ? (
 										<span
-											className='absolute top-4 left-4 -ml-px h-full w-0.5 bg-border'
+											className='top-4 left-4 absolute -ml-px bg-border w-0.5 h-full'
 											aria-hidden='true'
 										/>
 									) : null}
 									<div className='relative flex space-x-3'>
 										<div>
-											<span className='h-8 w-8 rounded-xl bg-primary flex items-center justify-center'>
-												<RadioIcon className='h-4 w-4 text-primary-foreground' />
+											<span className='flex justify-center items-center bg-primary rounded-xl w-8 h-8'>
+												<RadioIcon className='w-4 h-4 text-primary-foreground' />
 											</span>
 										</div>
-										<div className='flex min-w-0 flex-1 justify-between space-x-4 pt-1.5'>
+										<div className='flex flex-1 justify-between space-x-4 pt-1.5 min-w-0'>
 											<div>
-												<p className='text-sm text-muted-foreground'>
+												<p className='text-muted-foreground text-sm'>
 													{activity.event}{' '}
 													<span className='font-medium text-foreground'>{activity.station}</span>
 												</p>
 											</div>
-											<div className='text-sm text-muted-foreground whitespace-nowrap'>{activity.time}</div>
+											<div className='text-muted-foreground text-sm whitespace-nowrap'>{activity.time}</div>
 										</div>
 									</div>
 								</div>

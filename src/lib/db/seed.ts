@@ -1,5 +1,5 @@
+import { mockClients, mockLocations, mockStations, mockVoices } from '@/lib/mock-data'
 import { PrismaClient } from '@prisma/client'
-import { mockStations, mockLocations, mockClients, mockVoices } from '@/lib/mock-data'
 
 const prisma = new PrismaClient()
 
@@ -7,15 +7,15 @@ async function seed() {
   try {
     // Clear existing data in reverse order of dependencies
     console.log('Clearing existing data...')
-    await prisma.Station.deleteMany()
-    await prisma.Voice.deleteMany()
-    await prisma.Location.deleteMany()
-    await prisma.Client.deleteMany()
+    await prisma.station.deleteMany()
+    await prisma.voice.deleteMany()
+    await prisma.location.deleteMany()
+    await prisma.client.deleteMany()
 
     // First seed clients (parent table)
     console.log('Seeding clients...')
     for (const client of mockClients) {
-      await prisma.Client.create({
+      await prisma.client.create({
         data: {
           id: client.id, // Keep the specific IDs for relationships
           name: client.name,
@@ -34,10 +34,11 @@ async function seed() {
     // Then seed locations
     console.log('Seeding locations...')
     for (const location of mockLocations) {
-      await prisma.Location.create({
+      await prisma.location.create({
         data: {
-          id: location.id, // Keep the specific IDs for relationships
+          id: location.id,
           name: location.name,
+          code: location.code,
           country: location.country,
           city: location.city,
           timezone: location.timezone,
@@ -49,7 +50,7 @@ async function seed() {
     // Then seed stations (child table)
     console.log('Seeding stations...')
     for (const station of mockStations) {
-      await prisma.Station.create({
+      await prisma.station.create({
         data: {
           name: station.name,
           stationId: station.stationId,
@@ -81,7 +82,7 @@ async function seed() {
     // Finally seed voices
     console.log('Seeding voices...')
     for (const voice of mockVoices) {
-      await prisma.Voice.create({
+      await prisma.voice.create({
         data: {
           name: voice.name,
           voiceId: voice.voiceId,

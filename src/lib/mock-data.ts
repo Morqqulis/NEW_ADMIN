@@ -153,6 +153,7 @@ export const mockLocations = [
 	{
 		id: 1,
 		name: 'New York Studio',
+		code: 'NYC',
 		country: 'US',
 		city: 'New York',
 		timezone: 'America/New_York',
@@ -161,6 +162,7 @@ export const mockLocations = [
 	{
 		id: 2,
 		name: 'London Office',
+		code: 'LON',
 		country: 'GB',
 		city: 'London',
 		timezone: 'Europe/London',
@@ -169,6 +171,7 @@ export const mockLocations = [
 	{
 		id: 3,
 		name: 'Los Angeles Studio',
+		code: 'LAX',
 		country: 'US',
 		city: 'Los Angeles',
 		timezone: 'America/Los_Angeles',
@@ -177,6 +180,7 @@ export const mockLocations = [
 	{
 		id: 4,
 		name: 'Berlin Studio',
+		code: 'BER',
 		country: 'DE',
 		city: 'Berlin',
 		timezone: 'Europe/Berlin',
@@ -185,6 +189,7 @@ export const mockLocations = [
 	{
 		id: 5,
 		name: 'Amsterdam Studio',
+		code: 'AMS',
 		country: 'NL',
 		city: 'Amsterdam',
 		timezone: 'Europe/Amsterdam',
